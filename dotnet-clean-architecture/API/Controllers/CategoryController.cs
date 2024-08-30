@@ -2,6 +2,7 @@
 using Application.Features.Category.Commands.DeleteCategory;
 using Application.Features.Category.Commands.UpdateCategory;
 using Application.Features.Category.Queries.GetAllCategories;
+using Application.Features.Category.Queries.GetCategoriesById;
 using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,20 @@ namespace API.Controllers {
             this.mediator = mediator;
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
+        {
+            var command = new CreateCategoryCommand()
+            {
+                Request = request
+            };
+
+            var result = await mediator.Send(command);
+
+            return Ok(result);
+        }
+
         [HttpGet]
         //[Authorize]
         public async Task<IActionResult> GetAllCategories() {
@@ -24,16 +39,24 @@ namespace API.Controllers {
             return Ok(categories);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request) {
-            var command = new CreateCategoryCommand() {
-                Request = request
+        [HttpGet("{id:Guid}")]
+        public async Task<IActionResult> GetByIdCategories([FromRoute] Guid id)
+        {
+            var command = new GetCategoriesByIdQuery()
+            {
+                Id = id
             };
 
             var result = await mediator.Send(command);
-            
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return Ok(result);
         }
+
+        
 
         [HttpPut("{id:Guid}")]
         public async Task<IActionResult> UpdateCategory([FromRoute] Guid id, [FromBody] UpdateCategoryRequestDto request) {
@@ -61,6 +84,15 @@ namespace API.Controllers {
             }
 
             return Ok(result);
+        }
+
+        [HttpGet("Count")]
+        //[Authorize]
+        public async Task<IActionResult> GetCountCategories()
+        {
+            var categories = await mediator.Send(new GetAllCategoriesQuery());
+            
+            return Ok("Count: " + categories.Count);
         }
     }
 }

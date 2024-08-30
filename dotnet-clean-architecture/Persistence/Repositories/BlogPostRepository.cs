@@ -16,16 +16,67 @@ namespace Persistence.Repositories {
             this.dbContext = dbContext;
         }
 
-        public async Task<BlogPost> CreateAsync(BlogPost blogPost) {
-            await dbContext.BlogPosts.AddAsync(blogPost);
+        public async Task<BlogPost> CreateAsync(BlogPost blogpost) {
+            await dbContext.BlogPosts.AddAsync(blogpost);
             await dbContext.SaveChangesAsync();
 
-            return blogPost;
+            return blogpost;
         }
 
         public async Task<List<BlogPost>> GetAllBlogPosts() {
-            var blogposts = await dbContext.BlogPosts.AsNoTracking().Include(i => i.Categories).ToListAsync();
-            return blogposts;
+            var blogpost = await dbContext.BlogPosts.AsNoTracking().Include(i => i.Categories).ToListAsync();
+            return blogpost;
+        }
+
+        public async Task<BlogPost> GetByIdAsync(Guid id)
+        {
+            var blogpost = await dbContext.BlogPosts.Where(w => w.Id == id).FirstOrDefaultAsync();
+            if (blogpost == null)
+            {
+                return null;
+            }
+
+            return blogpost;
+        }
+
+        public async Task<BlogPost> DeleteAsync(Guid id)
+        {
+            var blogpost = await dbContext.BlogPosts.Where(w => w.Id == id).FirstOrDefaultAsync();
+            if (blogpost == null)
+            {
+                return null;
+            }
+
+            dbContext.BlogPosts.Remove(blogpost);
+            await dbContext.SaveChangesAsync();
+
+            return blogpost;
+        }
+
+        public async Task<BlogPost> UpdateAsync(BlogPost blogpost)
+        {
+            var blogpostDb = await dbContext.BlogPosts.Where(w => w.Id == blogpost.Id).FirstOrDefaultAsync();
+
+            if (blogpostDb == null)
+            {
+                return null;
+            }
+
+            blogpostDb.Title = blogpost.Title;
+            blogpostDb.ShortDescription = blogpost.ShortDescription;
+            blogpostDb.Content = blogpost.Content;
+            blogpostDb.FeaturedImageUrl = blogpost.FeaturedImageUrl;
+            blogpostDb.UrlHandle = blogpost.UrlHandle;
+            blogpostDb.PublishedDate = blogpost.PublishedDate;
+            blogpostDb.Author = blogpost.Author;
+            blogpostDb.IsVisible = blogpost.IsVisible;
+            blogpostDb.Categories = blogpost.Categories;
+
+
+
+            await dbContext.SaveChangesAsync();
+
+            return blogpostDb;
         }
     }
 }

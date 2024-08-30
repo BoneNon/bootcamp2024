@@ -38,9 +38,9 @@ namespace Persistence.Repositories {
         public async Task<List<Category>> GetAllCategories() {
             return await dbContext.Categories.AsNoTracking().ToListAsync();
         }
-
-        public async Task<Category> GetByIdAsync(Guid id) {
-            return await dbContext.Categories.FirstOrDefaultAsync(f => f.Id == id);
+        public async Task<List<Category>> GetCountCategories()
+        {
+            return await dbContext.Categories.AsNoTracking().ToListAsync();
         }
 
         public async Task<Category> UpdateAsync(Category category) {
@@ -54,6 +54,20 @@ namespace Persistence.Repositories {
             categoryDb.UrlHandle = category.UrlHandle;
 
             await dbContext.SaveChangesAsync();
+
+            return categoryDb;
+        }
+
+        public async Task<Category> GetByIdAsync(Guid id)
+        {
+            var categoryDb = await dbContext.Categories.Where(w => w.Id == id).FirstOrDefaultAsync();
+
+            if (categoryDb == null)
+            {
+                return null;
+            }
+            
+           await dbContext.Categories.AsNoTracking().ToListAsync();
 
             return categoryDb;
         }

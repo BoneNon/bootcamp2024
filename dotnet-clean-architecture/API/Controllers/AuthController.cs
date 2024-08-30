@@ -14,7 +14,7 @@ namespace API.Controllers {
             this.mediator = mediator;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequestDto registerModel) {
             var result = await mediator.Send(new CreateAccountCommand { RegisterModel = registerModel });
             return Ok(result);

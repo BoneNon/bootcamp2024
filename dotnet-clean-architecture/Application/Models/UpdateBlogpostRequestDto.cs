@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Models {
-    public class CreateBlogPostRequestDto
+namespace Application.Models
+{
+    public class UpdateBlogPostRequestDto
     {
         public string Title { get; set; }
         public string ShortDescription { get; set; }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Application.Profiles {
     public class BlogPostProfile : Profile {
         public BlogPostProfile() {
-            CreateMap<CreateBlogPostRequestDto, BlogPost>()
+            CreateMap<UpdateBlogPostRequestDto, BlogPost>()
                 .ForMember(des => des.Categories, opt => opt.MapFrom(src => new List<Category>()));
             CreateMap<BlogPost, BlogPostDto>();
         }
