@@ -7,6 +7,8 @@ using Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Runtime.InteropServices;
 
 namespace API.Controllers {
     [Route("api/[controller]")]
@@ -92,7 +94,9 @@ namespace API.Controllers {
         {
             var categories = await mediator.Send(new GetAllCategoriesQuery());
             
-            return Ok("Count: " + categories.Count);
+            var value1 = new { count = categories.Count };
+
+            return Ok(value1);
         }
     }
 }

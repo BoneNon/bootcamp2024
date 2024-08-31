@@ -12,6 +12,8 @@ namespace Application.Profiles {
         public BlogPostProfile() {
             CreateMap<UpdateBlogPostRequestDto, BlogPost>()
                 .ForMember(des => des.Categories, opt => opt.MapFrom(src => new List<Category>()));
+            CreateMap<CreateBlogPostRequestDto, BlogPost>()
+                .ForMember(des => des.Categories, opt => opt.MapFrom(src => new List<Category>()));
             CreateMap<BlogPost, BlogPostDto>();
         }
     }

@@ -26,11 +26,11 @@ namespace Application.Features.BlogPost.Queries.GetBlogPostById
 
         public async Task<BlogPostDto> Handle(GetBlogPostByIdQuery request, CancellationToken cancellationToken)
         {
-            var blogPost = mapper.Map<Domain.Entities.BlogPost>(request.Id);
+            //var blogPost = mapper.Map<Domain.Entities.BlogPost>(request.Id);
 
-            //var result = await blogPostRepository.DeleteAsync(request.Id);
+            var result = await blogPostRepository.GetByIdAsync(request.Id);
 
-            return mapper.Map<BlogPostDto>(blogPost);
+            return mapper.Map<BlogPostDto>(result);
         }
     }
     

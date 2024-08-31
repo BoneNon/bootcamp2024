@@ -30,7 +30,7 @@ namespace Persistence.Repositories {
 
         public async Task<BlogPost> GetByIdAsync(Guid id)
         {
-            var blogpost = await dbContext.BlogPosts.Where(w => w.Id == id).FirstOrDefaultAsync();
+            var blogpost = await dbContext.BlogPosts.Include(i => i.Categories).Where(w => w.Id == id).FirstOrDefaultAsync();
             if (blogpost == null)
             {
                 return null;
@@ -55,12 +55,14 @@ namespace Persistence.Repositories {
 
         public async Task<BlogPost> UpdateAsync(BlogPost blogpost)
         {
-            var blogpostDb = await dbContext.BlogPosts.Where(w => w.Id == blogpost.Id).FirstOrDefaultAsync();
+            var blogpostDb = await dbContext.BlogPosts.Include(i => i.Categories).Where(w => w.Id == blogpost.Id).FirstOrDefaultAsync();
 
             if (blogpostDb == null)
             {
                 return null;
             }
+
+            blogpostDb.Categories.Clear();
 
             blogpostDb.Title = blogpost.Title;
             blogpostDb.ShortDescription = blogpost.ShortDescription;
