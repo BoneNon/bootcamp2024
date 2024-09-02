@@ -1,0 +1,33 @@
+<div class="container">
+	<h1 class="mt-3">Blog Posts</h1>
+
+	@if (blogPosts.length) {
+		<div class="my-5">
+			<div class="d-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 16px">
+				@for (blogPost of blogPosts; track blogPost.id) {
+					<div class="card">
+						<div class="">
+							<img
+								src="{{ blogPost.featuredImageUrl }}"
+								height="100"
+								class="card-img-top"
+								alt="{{ blogPost.title }}"
+								style="object-fit: contain; min-height: 100px"
+							/>
+							<div
+								class="card-body"
+								style="display: flex; flex-direction: column; justify-content: flex-end; height: calc(100% - 100px)"
+							>
+								<h5 class="card-title">{{ blogPost.title }}</h5>
+								<p class="card-text">{{ blogPost.shortDescription }}</p>
+								<span class="d-flex align-item-end" style="flex: 1">
+									<a href="#" class="btn btn-primary">Read More</a>
+								</span>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
+</div>

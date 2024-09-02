@@ -1,0 +1,60 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Gofive Bootcamp</a>
+		<button
+			class="navbar-toggler"
+			type="button"
+			data-bs-toggle="collapse"
+			data-bs-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent"
+			aria-expanded="false"
+			aria-label="Toggle navigation"
+		>
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				@if (user?.email && user?.roles?.includes('Writer')) {
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Categories
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item" [routerLink]="['/categories']">Categories List</a>
+							</li>
+							<li>
+								<a class="dropdown-item" [routerLink]="['/categories/add']">Category Add</a>
+							</li>
+						</ul>
+					</li>
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Blog Posts
+						</a>
+						<ul class="dropdown-menu">
+							<li>
+								<a class="dropdown-item" [routerLink]="['/blog-post']">Blog Posts List</a>
+							</li>
+							<li>
+								<a class="dropdown-item" [routerLink]="['/blog-post/add']">Blog Posts Add</a>
+							</li>
+						</ul>
+					</li>
+				}
+			</ul>
+
+			<div class="d-flex align-items-center">
+				@if (user?.email) {
+					<span>
+						{{ user!.email }}
+					</span>
+					<button class="btn btn-primary ms-3" (click)="onLogout()">Logout</button>
+				} @else {
+					<button class="btn btn-primary" [routerLink]="['/login']">Login</button>
+				}
+			</div>
+		</div>
+	</div>
+</nav>

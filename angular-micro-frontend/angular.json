@@ -1,0 +1,218 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"boot-camp": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "projects/boot-camp",
+			"sourceRoot": "projects/boot-camp/src",
+			"prefix": "app",
+			"architect": {
+				"build": {
+					"builder": "ngx-build-plus:browser",
+					"options": {
+						"outputPath": "dist/boot-camp",
+						"index": "projects/boot-camp/src/index.html",
+						"polyfills": ["zone.js"],
+						"tsConfig": "projects/boot-camp/tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/boot-camp/public",
+								"output": "."
+							}
+						],
+						"styles": ["projects/boot-camp/src/styles.scss"],
+						"scripts": [],
+						"main": "projects/boot-camp/src/main.ts",
+						"extraWebpackConfig": "projects/boot-camp/webpack.config.js",
+						"commonChunk": false
+					},
+					"configurations": {
+						"production": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kB",
+									"maximumError": "1MB"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "2kB",
+									"maximumError": "4kB"
+								}
+							],
+							"outputHashing": "all",
+							"extraWebpackConfig": "projects/boot-camp/webpack.prod.config.js",
+							"fileReplacements": [
+								{
+									"replace": "projects/boot-camp/src/environments/environment.ts",
+									"with": "projects/boot-camp/src/environments/environment.production.ts"
+								}
+							]
+						},
+						"development": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true,
+							"fileReplacements": [
+								{
+									"replace": "projects/boot-camp/src/environments/environment.ts",
+									"with": "projects/boot-camp/src/environments/environment.development.ts"
+								}
+							]
+						},
+						"localhost": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true,
+							"namedChunks": true
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve": {
+					"builder": "ngx-build-plus:dev-server",
+					"configurations": {
+						"production": {
+							"buildTarget": "boot-camp:build:production",
+							"extraWebpackConfig": "projects/boot-camp/webpack.prod.config.js"
+						},
+						"development": {
+							"buildTarget": "boot-camp:build:development"
+						}
+					},
+					"defaultConfiguration": "development",
+					"options": {
+						"port": 4200,
+						"publicHost": "http://localhost:4200",
+						"extraWebpackConfig": "projects/boot-camp/webpack.config.js"
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n"
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"polyfills": ["zone.js", "zone.js/testing"],
+						"tsConfig": "projects/boot-camp/tsconfig.spec.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/boot-camp/public"
+							}
+						],
+						"styles": ["projects/boot-camp/src/styles.scss"],
+						"scripts": []
+					}
+				}
+			}
+		},
+		"micro-front-end": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "projects/micro-front-end",
+			"sourceRoot": "projects/micro-front-end/src",
+			"prefix": "app",
+			"architect": {
+				"build": {
+					"builder": "ngx-build-plus:browser",
+					"options": {
+						"outputPath": "dist/micro-front-end",
+						"index": "projects/micro-front-end/src/index.html",
+						"polyfills": ["zone.js"],
+						"tsConfig": "projects/micro-front-end/tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/micro-front-end/public",
+								"output": "."
+							}
+						],
+						"styles": ["projects/micro-front-end/src/styles.scss"],
+						"scripts": [],
+						"main": "projects/micro-front-end/src/main.ts",
+						"extraWebpackConfig": "projects/micro-front-end/webpack.config.js",
+						"commonChunk": false
+					},
+					"configurations": {
+						"production": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kB",
+									"maximumError": "1MB"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "2kB",
+									"maximumError": "4kB"
+								}
+							],
+							"outputHashing": "all",
+							"extraWebpackConfig": "projects/micro-front-end/webpack.prod.config.js"
+						},
+						"development": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"serve": {
+					"builder": "ngx-build-plus:dev-server",
+					"configurations": {
+						"production": {
+							"buildTarget": "micro-front-end:build:production",
+							"extraWebpackConfig": "projects/micro-front-end/webpack.prod.config.js"
+						},
+						"development": {
+							"buildTarget": "micro-front-end:build:development"
+						}
+					},
+					"defaultConfiguration": "development",
+					"options": {
+						"port": 4201,
+						"publicHost": "http://localhost:4201",
+						"extraWebpackConfig": "projects/micro-front-end/webpack.config.js"
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular-devkit/build-angular:extract-i18n"
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"polyfills": ["zone.js", "zone.js/testing"],
+						"tsConfig": "projects/micro-front-end/tsconfig.spec.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/micro-front-end/public"
+							}
+						],
+						"styles": ["projects/micro-front-end/src/styles.scss"],
+						"scripts": []
+					}
+				}
+			}
+		}
+	}
+}
